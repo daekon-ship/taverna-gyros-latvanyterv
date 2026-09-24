@@ -342,7 +342,7 @@ h2 em, h1 em { font-style: normal; color: var(--accent); }
 /* Blurred atmosphere layer — hides upscaling artifacts, adds depth */
 .hero-blur {
   position: absolute; inset: -48px;
-  background: url('assets/hero-gyros-spit.jpg') center 35% / cover no-repeat;
+  background: url('assets/storefront.jpg') center 40% / cover no-repeat;
   filter: blur(26px) brightness(0.62) saturate(1.3);
   transform: scale(1.18);
 }
@@ -361,9 +361,9 @@ h2 em, h1 em { font-style: normal; color: var(--accent); }
 .hero-media img {
   width: 100%; height: 100%;
   object-fit: cover;
-  object-position: 50% 35%;
-  filter: saturate(1.08) contrast(1.05);
-  /* Fade the right edge into the blurred layer so upscaling disappears */
+  object-position: 50% 42%;
+  filter: saturate(1.05) contrast(1.04);
+  /* Fade the right edge into the blurred layer */
   -webkit-mask-image: linear-gradient(100deg, #000 0%, #000 52%, rgba(0,0,0,0.4) 78%, transparent 98%);
   mask-image: linear-gradient(100deg, #000 0%, #000 52%, rgba(0,0,0,0.4) 78%, transparent 98%);
   animation: kenburns 26s var(--ease) infinite alternate;
@@ -376,14 +376,14 @@ h2 em, h1 em { font-style: normal; color: var(--accent); }
 @media (min-width: 901px) {
   .hero-media {
     inset: 0 0 0 auto;
-    width: min(52vw, 760px);
+    width: min(46vw, 680px);
   }
   .hero-media img {
-    object-position: 48% 38%;
+    object-position: 50% 42%;
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%);
     mask-image: linear-gradient(90deg, transparent 0%, #000 18%);
   }
-  .hero-content { max-width: 34rem; margin-inline: 0; }
+  .hero-content { max-width: 36rem; margin-inline: 0; }
 }
 @keyframes kenburns {
   from { transform: scale(1.02); }
@@ -903,6 +903,78 @@ section + section { border-top: 1px solid var(--line); }
   .sticky-cta { display: grid; }
   /* Reserve space so the fixed CTA never covers footer content */
   body { padding-bottom: calc(58px + env(safe-area-inset-bottom)); }
+}
+
+/* ============================================================
+   MOBIL FINOMHANGOLÁS (< 641px)
+   A 960px-es étteremfotó keretezett kártyaként jelenik meg a
+   szöveg alatt — natív méret közelében, éles. Minden méret
+   leporeltózva: címek, drawer, fülek, sorok, szekció-távok.
+   ============================================================ */
+@media (max-width: 640px) {
+  h1 { font-size: clamp(2.05rem, 9vw, 2.6rem); }
+  h2 { font-size: clamp(1.55rem, 7.2vw, 2rem); }
+  section { padding-block: 3.25rem; }
+  .section-head { margin-bottom: 2rem; }
+  .lead { font-size: 0.92rem; }
+
+  /* --- Hero: szöveg felül, keretezett fotókártya alatta --- */
+  .hero { min-height: auto; flex-direction: column; align-items: stretch; padding-bottom: 2.75rem; }
+  .hero-content { order: 1; padding-top: 6.25rem; }
+  .hero-kicker { font-size: 0.68rem; padding: 0.4rem 0.75rem; }
+  .hero-title { font-size: clamp(2.05rem, 9.5vw, 2.6rem); margin-top: 1.1rem; }
+  .hero-sub { margin-top: 0.9rem; font-size: 0.95rem; }
+  .hero-media {
+    order: 2;
+    position: relative;
+    inset: auto;
+    width: auto;
+    margin: 1.75rem var(--gutter) 0;
+  }
+  .hero-media img {
+    height: auto;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--r-lg);
+    border: 1px solid var(--line-strong);
+    box-shadow: var(--shadow-pop);
+    -webkit-mask-image: none;
+    mask-image: none;
+    object-position: 50% 45%;
+    animation: none;
+  }
+  .hero-scrim {
+    background: linear-gradient(180deg,
+      rgba(10,10,10,0.82) 0%,
+      rgba(10,10,10,0.45) 38%,
+      rgba(10,10,10,0.92) 100%);
+  }
+  .hero-meta { margin-top: 1.9rem; padding-top: 1.1rem; }
+
+  /* --- Menü fülek és sorok kompaktban --- */
+  .menu-tab { padding: 0.55rem 0.95rem; font-size: 0.72rem; }
+  .menu-row { padding-block: 0.85rem; }
+  .mr-name { font-size: 0.95rem; }
+  .mr-price { font-size: 0.95rem; }
+  .menu-col-title { padding-block: 1rem 0.35rem; }
+
+  /* --- Kontakt kártya, faktorok, footer --- */
+  .fact { padding: 1.1rem 1rem; }
+  .contact-card { padding: 1.25rem 1.1rem; gap: 1.1rem; }
+  .contact-actions .btn { flex: 1 1 100%; }
+  .footer-top { gap: 1.5rem; }
+  .footer-word { font-size: 2.1rem; }
+
+  /* --- Galleria kártya-feliratok kisebbben --- */
+  .gi figcaption { font-size: 0.6rem; padding: 0.25rem 0.55rem; }
+}
+
+/* ============================================================
+   MOBIL DRAWER (< 901px) — kompakt linkek
+   ============================================================ */
+@media (max-width: 900px) {
+  .mobile-drawer { padding: 4.75rem var(--gutter) 2.25rem; }
+  .mobile-drawer ul a { font-size: clamp(1.5rem, 6vw, 2.4rem); padding-block: 0.55rem; }
+  .drawer-foot .btn { min-height: 52px; }
 }
 
 /* Reduced motion global */

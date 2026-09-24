@@ -157,11 +157,14 @@
     }
   }
 
-  /* ---------- Hero parallax ( Transform/opacity only, rAF-throttled ) ---------- */
+  /* ---------- Hero parallax ( Transform/opacity only, rAF-throttled ) ----------
+     Csak desktopon: mobilon a fotó keretezett kártya a szöveg alatt,
+     az elmozgatás ott csúnya lenne. */
   var heroMedia = document.querySelector(".hero-media");
   var heroBlur = document.querySelector(".hero-blur");
   var ticking = false;
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var isMobileLayout = window.matchMedia("(max-width: 640px)").matches;
 
   function parallax() {
     var y = window.scrollY;
@@ -172,7 +175,7 @@
     }
     ticking = false;
   }
-  if (!reduceMotion && heroMedia) {
+  if (!reduceMotion && !isMobileLayout && heroMedia) {
     window.addEventListener("scroll", function () {
       if (!ticking) {
         requestAnimationFrame(parallax);
