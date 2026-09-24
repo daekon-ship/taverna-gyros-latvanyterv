@@ -942,12 +942,12 @@ section + section { border-top: 1px solid var(--line); }
     object-position: 50% 45%;
     animation: none;
   }
-  .hero-scrim {
-    background: linear-gradient(180deg,
-      rgba(10,10,10,0.82) 0%,
-      rgba(10,10,10,0.45) 38%,
-      rgba(10,10,10,0.92) 100%);
-  }
+  /* A teljes felületet sötétítő scrim, a teal-duotone és a grain
+     a fotókártyára is ráfestett — mobilon kikapcsolva, így az
+     étteremfotó teljes fényerejével, élesen jelenik meg. */
+  .hero-scrim,
+  .hero-media::after,
+  .hero-grain { display: none; }
   .hero-meta { margin-top: 1.9rem; padding-top: 1.1rem; }
 
   /* --- Menü fülek és sorok kompaktban --- */
