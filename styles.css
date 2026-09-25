@@ -675,6 +675,8 @@ section + section { border-top: 1px solid var(--line); }
   font-weight: 500;
   color: var(--muted-2);
 }
+/* Nem ár jellegű érték (pl. "—" a választható önteteknél):suffix nélkül */
+.mr-price.no-unit::after { content: none; }
 .menu-note {
   margin-top: 2rem;
   font-size: 0.82rem;
