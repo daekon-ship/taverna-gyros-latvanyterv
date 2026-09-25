@@ -985,8 +985,7 @@ section + section { border-top: 1px solid var(--line); }
   .mr-price { font-size: 0.95rem; }
   .menu-col-title { padding-block: 1rem 0.35rem; }
 
-  /* --- Kontakt kártya, faktorok, footer --- */
-  .fact { padding: 1.1rem 1rem; }
+  /* --- Kontakt kártya, footer --- */
   .contact-card { padding: 1.25rem 1.1rem; gap: 1.1rem; }
   .contact-actions .btn { flex: 1 1 100%; }
   .footer-top { gap: 1.5rem; }
@@ -1005,6 +1004,33 @@ section + section { border-top: 1px solid var(--line); }
    biztosan beleférjenek a kategóriák */
 @media (max-width: 380px) {
   .menu-tab { padding: 0.5rem 0.7rem; font-size: 0.68rem; }
+}
+
+/* ============================================================
+   STATISZTIKA-BLOKK KOMPAKT MOBILRA (< 768px)
+   A három faktor (11–21 / 40+ / 10+) szám balra, leírás mellette:
+   25px/700 szám, 15px leírás, ~20px rés, kompakt sorköz — a blokk
+   így alacsony és elegáns, nem óriás KPI-kártya. Tablet (768–920px)
+   és desktop ennél a blokknál nem változik.
+   ============================================================ */
+@media (max-width: 767px) {
+  .intro-facts { border-radius: var(--r-sm); }
+  .fact {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 1.25rem;              /* ~20px a szám és a leírás közt */
+    padding: 0.8rem 1rem;      /* kompakt függőleges ritmus */
+  }
+  .fact-num {
+    font-size: 1.5625rem;      /* 25px — olvasható, de nem KPI-óriás */
+    font-weight: 700;
+    min-width: 4.25rem;        /* a számoszlop szélessége rendezett marad */
+    flex: 0 0 auto;
+  }
+  .fact-cap {
+    font-size: 0.95rem;        /* 15.2px */
+    line-height: 1.5;          /* hosszabb szöveg max. 2 kulturált sorban */
+  }
 }
 
 /* ============================================================
