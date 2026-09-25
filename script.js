@@ -6,7 +6,8 @@
   "use strict";
 
   /* ---------- Élő nyitvatartás-jelző ---------- */
-  // Hétfő–Szombat: 11:00–21:00 (rendelésfelvétel 20:30-ig), Vasárnap: zárva.
+  // Hétfő–Szombat: 11:00–21:00 (telefonos rendelésfelvétel 20:30-ig), Vasárnap: zárva.
+  // Fontos: 20:30–21:00 között az étterem MÉG NYITVA — csak a rendelésfelvétel ért véget.
   var OPEN_HOUR = 11;
   var CLOSE_HOUR = 21;
   var LAST_ORDER_HOUR = 20;
@@ -17,7 +18,7 @@
 
   function updateHours() {
     var now = new Date();
-    var day = now.getDay(); // 0 = vasárnap
+    var day = now.getDay(); // 0 = vasárnap, 6 = szombat
     var mins = now.getHours() * 60 + now.getMinutes();
     var openMins = OPEN_HOUR * 60;
     var lastOrderMins = LAST_ORDER_HOUR * 60 + LAST_ORDER_MIN;
@@ -29,7 +30,11 @@
       if (open) {
         hbDot.classList.remove("is-closed");
         if (mins >= lastOrderMins) {
-          hbText.textContent = "Rendelésfelvétel lezárult ma — holnap 11:00-tól nyitva";
+          // Nyitva még, de a telefonos rendelésfelvétel már nem él — szombat éjfél utáni
+          // zárás miatt hétfőig nincs új rendelés.
+          hbText.textContent = day === 6
+            ? "Most nyitva · rendelésfelvétel lezárult · hétfő 11:00-tól rendelhetsz újra"
+            : "Most nyitva · rendelésfelvétel lezárult · 21:00-ig nyitva";
         } else {
           var remaining = lastOrderMins - mins;
           var h = Math.floor(remaining / 60);
@@ -43,8 +48,10 @@
           hbText.textContent = "Ma zárva · hétfő 11:00-tól nyitva";
         } else if (mins < openMins) {
           hbText.textContent = "Ma még zárva · 11:00-tól nyitva";
+        } else if (day === 6) {
+          hbText.textContent = "Jelenleg zárva · hétfő 11:00-tól nyitva";
         } else {
-          hbText.textContent = day === 6 ? "Ma zárva · hétfő 11:00-tól nyitva" : "Jelenleg zárva · holnap 11:00–21:00-ig nyitva";
+          hbText.textContent = "Jelenleg zárva · holnap 11:00-tól nyitva";
         }
       }
     }

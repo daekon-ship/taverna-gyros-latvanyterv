@@ -29,6 +29,16 @@
   --container: 1240px;
   --gutter: clamp(1.25rem, 4vw, 3rem);
 
+  /* Rétegzés (felülről lefelé): órasáv → header → drawer → sticky CTA.
+     A header a drawer FÖLÖTT van, így a hamburger/X gomb a menü nyitva
+     állapotában is mindig látható és kattintható marad.
+     Az órasáv fix magassága itt él — a header és a scroll-padding is ebből számolódik. */
+  --hours-bar-h: 2.4rem;
+  --z-hours: 100;
+  --z-header: 90;
+  --z-drawer: 80;
+  --z-sticky: 70;
+
   --r-sm: 10px;
   --r-md: 16px;
   --r-lg: 22px;
@@ -40,7 +50,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 112px;
+  scroll-padding-top: calc(var(--hours-bar-h) + 76px);
   -webkit-text-size-adjust: 100%;
 }
 @media (max-width: 720px) {
@@ -185,17 +195,19 @@ h2 em, h1 em { font-style: normal; color: var(--accent); }
 .hours-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 90;
+  height: var(--hours-bar-h);
+  z-index: var(--z-hours);
   background: var(--ink-2);
   border-bottom: 1px solid var(--line);
   font-size: 0.8rem;
 }
 .hb-inner {
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
-  padding-block: 0.45rem;
+  padding-block: 0;
 }
 .hb-status { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 600; min-width: 0; }
 #hbText { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -220,18 +232,19 @@ h2 em, h1 em { font-style: normal; color: var(--accent); }
    ============================================================ */
 .site-header {
   position: fixed;
-  top: 2.1rem; left: 0; right: 0;
-  z-index: 80;
-  transition: top 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s;
+  /* Mindig az órasáv alatt — scroll után is (soha nem csúszik mögé) */
+  top: var(--hours-bar-h); left: 0; right: 0;
+  z-index: var(--z-header);
+  transition: background 0.3s var(--ease), border-color 0.3s, box-shadow 0.3s;
   border-bottom: 1px solid transparent;
   background: linear-gradient(180deg, rgba(10,10,10,0.66) 0%, rgba(10,10,10,0.25) 60%, transparent 100%);
 }
 .site-header.is-scrolled {
-  top: 0;
   background: rgba(10, 10, 10, 0.86);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-color: var(--line);
+  box-shadow: 0 12px 32px -18px rgba(0, 0, 0, 0.6);
 }
 .nav-row {
   display: flex;
@@ -288,14 +301,17 @@ h2 em, h1 em { font-style: normal; color: var(--accent); }
 .nav-call { display: inline-flex; }
 .nav-toggle { display: none; }
 
-/* Mobile drawer */
+/* Mobile drawer — a header fölé kerül (z-drawer > z-header), így a headerben
+   lévő hamburger/X gomb SOHA nem takaródzik. A header hamburgerje nyit,
+   ugyanaz a gomb zárja (X-re fordul) — mindig látható és kattintható. */
 .mobile-drawer {
-  position: fixed; inset: 0; z-index: 95;
+  position: fixed; inset: 0; z-index: var(--z-drawer);
   background: rgba(10, 10, 10, 0.98);
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  padding: 6rem var(--gutter) 2.5rem;
+  /* felső padding = órasáv + header + légvonal — a linkek soha nem csúsznak a header alá */
+  padding: calc(var(--hours-bar-h) + 6.5rem) var(--gutter) 2.5rem;
 }
 .mobile-drawer.is-open { display: flex; }
 .mobile-drawer ul { list-style: none; display: grid; gap: 0.5rem; }
@@ -889,7 +905,7 @@ section + section { border-top: 1px solid var(--line); }
 .sticky-cta {
   position: fixed;
   left: 0; right: 0; bottom: 0;
-  z-index: 85;
+  z-index: var(--z-sticky);
   display: none;
   grid-template-columns: 1fr 1fr;
   gap: 1px;
@@ -993,7 +1009,7 @@ section + section { border-top: 1px solid var(--line); }
    MOBIL DRAWER (< 901px) — kompakt linkek
    ============================================================ */
 @media (max-width: 900px) {
-  .mobile-drawer { padding: 4.75rem var(--gutter) 2.25rem; }
+  .mobile-drawer { padding: calc(var(--hours-bar-h) + 5.5rem) var(--gutter) 2.25rem; }
   .mobile-drawer ul a { font-size: clamp(1.35rem, 5vw, 2rem); padding-block: 0.55rem; }
   .drawer-foot .btn { min-height: 52px; }
 }
