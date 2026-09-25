@@ -40,7 +40,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 96px;
+  scroll-padding-top: 112px;
   -webkit-text-size-adjust: 100%;
 }
 @media (max-width: 720px) {
@@ -53,7 +53,9 @@ body {
   line-height: 1.6;
   font-size: 1rem;
   overflow-x: hidden;
+  overflow-x: clip;
 }
+html { overflow-x: hidden; overflow-x: clip; }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
@@ -389,7 +391,15 @@ h2 em, h1 em { font-style: normal; color: var(--accent); }
      korlátozott, hogy ne nyúljon át a jobb oldali fotópanel alá. */
   .hero-content { max-width: none; }
   .hero-actions,
-  .hero-meta { max-width: 42rem; }
+  .hero-meta { max-width: 41rem; }
+}
+/* Középső sáv (901–1350px): keskenyebb fotópanel + szűkebb gombsor/meta,
+   hogy semmi se lógjon a fotó alá (1100px-en ~139px átfedés volt).
+   A fotó itt is a natív 960px szélesség fele alatt marad, így éles. */
+@media (min-width: 901px) and (max-width: 1350px) {
+  .hero-media { width: min(40vw, 600px); }
+  .hero-actions,
+  .hero-meta { max-width: 30rem; }
 }
 @keyframes kenburns {
   from { transform: scale(1.02); }
@@ -641,6 +651,7 @@ section + section { border-top: 1px solid var(--line); }
   font-size: 1.05rem;
   color: var(--accent);
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 .mr-price::after {
   content: " Ft";
@@ -699,6 +710,7 @@ section + section { border-top: 1px solid var(--line); }
   box-shadow: var(--shadow-pop);
   aspect-ratio: 4 / 5;
   object-fit: cover;
+  background: var(--paper-2);
 }
 .zones {
   position: absolute;
@@ -972,6 +984,11 @@ section + section { border-top: 1px solid var(--line); }
 
   /* --- Galleria kártya-feliratok kisebbben --- */
   .gi figcaption { font-size: 0.6rem; padding: 0.25rem 0.55rem; }
+
+  /* Mobilon a reveal animáció csak felfelé úszzon — az oldalirányú
+     36px-es eltolás a containeren kívülre lógna, amíg nem indul el */
+  [data-reveal="left"],
+  [data-reveal="right"] { transform: none; }
 }
 
 /* ============================================================
