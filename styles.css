@@ -383,7 +383,13 @@ h2 em, h1 em { font-style: normal; color: var(--accent); }
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%);
     mask-image: linear-gradient(90deg, transparent 0%, #000 18%);
   }
-  .hero-content { max-width: 36rem; margin-inline: 0; }
+  /* A hero-content marad teljes container-szélességű — így a szöveg
+     pontosan a központi container bal pereméhez igazodik (mint minden
+     szekció), nem csúszik a viewport szélére. A gyermekek szélessége
+     korlátozott, hogy ne nyúljon át a jobb oldali fotópanel alá. */
+  .hero-content { max-width: none; }
+  .hero-actions,
+  .hero-meta { max-width: 42rem; }
 }
 @keyframes kenburns {
   from { transform: scale(1.02); }
